@@ -1,25 +1,31 @@
 import angular from 'angular';
+import * as uiRouter from 'angular-ui-router';
 
 import '../style/app.css';
+
+import { DefaultCtrl, DefaultState } from './states/default';
 
 let app = () => {
   return {
     template: require('./app.html'),
-    controller: 'AppCtrl',
-    controllerAs: 'app'
   }
 };
 
-class AppCtrl {
-  constructor() {
-    this.url = 'https://github.com/preboot/angular-webpack';
-  }
-}
-
 const MODULE_NAME = 'app';
 
-angular.module(MODULE_NAME, [])
+angular.module(MODULE_NAME, ['ui.router'])
+  .controller(DefaultState.controller, DefaultCtrl)
+
   .directive('app', app)
-  .controller('AppCtrl', AppCtrl);
+
+  .config(($stateProvider) => {
+    $stateProvider
+      .state(DefaultState.name, DefaultState)
+      ;
+  })
+
+  .run(($state) => {
+    $state.go('default');
+  })
 
 export default MODULE_NAME;
