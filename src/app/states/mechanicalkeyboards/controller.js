@@ -16,6 +16,7 @@ export const MechCtrl = ['$scope','MechService', class MechCtrl {
       }
       $scope.posts = children
         .filter( child => child.data.preview )
+
         .map( child => child.data );
     })
     .catch( err => console.error(err) );
